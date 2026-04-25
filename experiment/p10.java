@@ -1,21 +1,46 @@
+import java.util.*;
+
 public class Knapsack {
-    public static void main(String[] args) {
-        int[] wt = {1,3,4,5};
-        int[] val = {1,4,5,7};
-        int W = 7;
-        int n = wt.length;
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
 
-        int[][] dp = new int[n+1][W+1];
+        System.out.print("Enter number of items: ");
+        int n = sc.nextInt();
 
-        for (int i=1;i<=n;i++) {
-            for (int w=1;w<=W;w++) {
-                if (wt[i-1] <= w)
-                    dp[i][w] = Math.max(val[i-1]+dp[i-1][w-wt[i-1]], dp[i-1][w]);
+        int wt[] = new int[n];
+        int val[] = new int[n];
+
+        System.out.println("Enter weights:");
+        for (int i = 0; i < n; i++)
+            wt[i] = sc.nextInt();
+
+        System.out.println("Enter values:");
+        for (int i = 0; i < n; i++)
+            val[i] = sc.nextInt();
+
+        System.out.print("Enter capacity: ");
+        int W = sc.nextInt();
+
+        int dp[][] = new int[n + 1][W + 1];
+
+        for (int i = 1; i <= n; i++) {
+            for (int w = 1; w <= W; w++) {
+                if (wt[i - 1] <= w)
+                    dp[i][w] = Math.max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w]);
                 else
-                    dp[i][w] = dp[i-1][w];
+                    dp[i][w] = dp[i - 1][w];
             }
         }
 
-        System.out.println(dp[n][W]);
+        System.out.println("\nDP Table:");
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= W; j++) {
+                System.out.print(dp[i][j] + "\t");
+            }
+            System.out.println();
+        }
+
+        System.out.println("\nMaximum Profit: " + dp[n][W]);
+        sc.close();
     }
 }
